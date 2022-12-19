@@ -1,0 +1,26 @@
+*{
+    box-sizing: border-box;
+    padding: 0px;
+    margin: auto;
+}
+body{
+    max-width: 1000px;
+    color: rgb(0, 0, 0);
+    background-color: rgb(109, 105, 53);
+    text-align: center;
+}
+
+nav ul{
+    display: flex;
+    justify-content: space-evenly;
+}
+.titre-add{
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+}
+td {
+    text-align: start;
+}

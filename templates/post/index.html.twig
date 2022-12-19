@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Posts
+{% endblock title %}
+
+{% block body %}
+    <div class="titre-add">
+        <h1>Posts</h1>
+        <p><button class="addButton"><a href=" {{ path('add_post') }} ">Ajouter un post</a></button></p>
+    </div>
+    <div>      
+        {% for post in posts %}
+            <p> {{ post.message }} </p>
+        {% endfor %}
+    </div>
+{% endblock body %}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Catégories
+{% endblock title %}
+
+{% block body %}
+    <div class="titre-add">
+        <h1>Catégories</h1>
+        <p><button class="addButton"><a href=" {{ path('add_categorie') }} ">Ajouter une Catégorie</a></button></p>     
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Intitulé</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categorie in categories %}
+                <tr>
+                    <td>
+                        - <a href="{{ path('show_categorie', {'id': categorie.id}) }}">{{ categorie.libelle }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('edit_categorie', {'id': categorie.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{{ path('delCategorie_categorie', {'id': categorie.id}) }} "><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr> 
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock body %}

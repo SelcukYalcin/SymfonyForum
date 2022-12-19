@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Topics
+{% endblock title %}
+
+{% block body %}
+    <div class="titre-add">
+        <h1>Topics</h1>
+        <p><button class="addButton"><a href=" {{ path('add_topic') }} ">Ajouter un Topic</a></button></p>     
+    </div>
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for topic in topics %}
+                <tr>
+                    <td>
+                        - <a href="{{ path('show_topic', {'id': topic.id}) }}">{{ topic.titre }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('edit_topic', {'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{{ path('delTopic', {'id': topic.id}) }} "><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr> 
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock body %}

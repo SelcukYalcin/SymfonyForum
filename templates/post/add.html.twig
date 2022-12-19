@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Formulaire Post
+{% endblock title %}
+
+{% block body %}
+    {% if edit %}
+        <h1>Editer un Post</h1>
+        {% else %}
+            <h1>Ajouter un Post</h1>
+    {% endif %}
+    {{ form(formAddPost) }}
+{% endblock body %}

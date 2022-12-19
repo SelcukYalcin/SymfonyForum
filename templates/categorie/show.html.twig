@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Détail de la Catégorie
+{% endblock title %}
+
+{% block body %}
+    <div class="titre-add">
+        <h1>Topic(s) de la Catégorie {{ categorie.libelle }}</h1>
+        <p><button class="addButton"><a href=" {{ path('add_topic') }} ">Ajouter un topic</a></button></p>
+    </div>
+    {% if categorie.topics | length == 0 %}
+        <p>Il n'y a pas de topics dans cette catégorie</p>        
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for topic in categorie.topics %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('show_topic', {'id': topic.id}) }}">- {{ topic.titre }}</a>
+                            </td>
+                            <td>
+                                <a href="{{ path('edit_topic', {'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a> 
+                                <a href="{{ path('delTopic', {'id': topic.id}) }}"><i class="fa-solid fa-trash"></i></a>
+                            </td>
+                        </tr> 
+                    {% endfor %}
+                </tbody>
+            </table>
+    {% endif %}
+{% endblock body %} 

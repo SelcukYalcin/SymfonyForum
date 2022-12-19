@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Détails du Topic
+{% endblock title %}
+
+{% block body %}
+    <div class="titre-add">
+        <h1>Post(s) du topic {{ topic.titre }}</h1>
+        <p><button class="addButton"><a href=" {{ path('add_post') }} ">Ajouter un post</a></button></p>
+    </div>
+    {% if topic.posts | length == 0 %}
+        <p>Il n'y a pas de posts dans ce topic</p>    
+        {% else %}
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Posts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in topic.posts %}
+                            <tr>
+                                <td>
+                                    - {{ post }} <br>
+                                    Auteur du post : {{ post.utilisateur }}
+                                
+                                    Edité le  {{ post. datePost | date('d-m-Y' ) }}
+                                </td>
+                                <td>
+                                    <a href="{{ path('edit_post', {'id': post.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a> 
+                                    <a href="{{ path('delPost', {'id': post.id}) }}"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr> 
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    {% endif %}
+{% endblock body %} 
