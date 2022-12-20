@@ -19,7 +19,7 @@ class Topic
     #[ORM\Column(length: 50)]
     private ?string $titre = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable:true, options:["default" =>"CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $dateTopic = null;
 
     #[ORM\OneToMany(mappedBy: 'topic', targetEntity: Post::class)]
@@ -32,6 +32,10 @@ class Topic
     #[ORM\ManyToOne(inversedBy: 'topics')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $utilisateur = null;
+
+    #[ORM\Column(options:["default" => false])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?bool $locked = null;
 
     public function __construct()
     {
@@ -125,5 +129,17 @@ class Topic
     public function __toString()
     {
         return $this->titre;
+    }
+
+    public function isLocked(): ?bool
+    {
+        return $this->locked;
+    }
+
+    public function setLocked(bool $locked): self
+    {
+        $this->locked = $locked;
+
+        return $this;
     }
 }

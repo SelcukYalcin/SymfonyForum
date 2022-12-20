@@ -21,10 +21,7 @@ class TopicType extends AbstractType
     {
         $builder
             ->add('titre', TextType::class, ['label' => 'Titre :'])
-            ->add('dateTopic', DateType::class, ['label' => 'Date de création :','widget' => 'single_text', ])
-            ->add('posts', EntityType::class, ['class' => Post::class, 'choice_label' => 'message', 'mapped' => false])
-            ->add('submit',SubmitType::class, ['attr' => ['class' => 'btn']])
-        ;
+            ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn']]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
