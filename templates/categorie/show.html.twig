@@ -23,7 +23,7 @@ Détail de la Catégorie
         {% for topic in categorie.topics %}
         <tr>
             <td>
-                <a href="{{ path('show_topic', {'id': topic.id}) }}">- {{ topic.titre }}</a>
+                <a href="{{ path('show_topic', {'id': topic.id}) }}">- {{ topic.titre ~ topic.dateTopic | date("m/d/Y à H:i:s") }}</a>
             </td>
             <td>
                 <a href="{{ path('edit_topic', {'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>

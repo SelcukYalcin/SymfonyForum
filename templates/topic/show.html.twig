@@ -26,7 +26,7 @@
                                     - {{ post }} <br>
                                     Auteur du post : {{ post.utilisateur }}
                                 
-                                    Edité le  {{ post. datePost | date('d-m-Y' ) }}
+                                    Edité le  {{ post. datePost | date('d-m-Y  à H:i:s') }}
                                 </td>
                                 <td>
                                     <a href="{{ path('edit_post', {'id': post.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a> 

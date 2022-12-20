@@ -35,6 +35,7 @@ class TopicController extends AbstractController
     #[Route("/topic/add/{idCategorie}", name: "add_topic")]
     #[Route("/topic/edit/{id}", name: "edit_topic")]
     #[ParamConverter("categorie", options: ["mapping" => ["idCategorie" => "id"]])]
+    #[ParamConverter("topic", options: ["mapping" => ["id" => "id"]])]
 
     public function add(ManagerRegistry $doctrine, Topic $topic = null, Request $request, Security $security, Categorie $categorie): Response
     {
@@ -77,13 +78,13 @@ class TopicController extends AbstractController
     }
 
     //<---------- FONCTION SUPPRIMER UN TOPIC ---------->
-    #[Route("/topic/{id}/delTopic", name: "delTopic")]
+    #[Route("/topic/delTopic/{id}", name: "delTopic")]
     public function deltopic(ManagerRegistry $doctrine, Topic $topic)
     {
         $entityManager = $doctrine->getManager();
         $entityManager->remove($topic);
         $entityManager->flush();
-        return $this->redirectToRoute('app_topic');
+        return $this->redirectToRoute('show_categorie', ['id' => $topic->getCategorie()->getId()]);
     }
 
     //<---------- FONCTION AFFICHER TOPIC ---------->
