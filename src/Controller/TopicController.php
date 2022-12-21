@@ -31,12 +31,10 @@ class TopicController extends AbstractController
     }
 
     //<---------- FONCTION AJOUTER ET EDITER UN TOPIC ---------->
-
     #[Route("/topic/add/{idCategorie}", name: "add_topic")]
     #[Route("/topic/edit/{id}", name: "edit_topic")]
     #[ParamConverter("categorie", options: ["mapping" => ["idCategorie" => "id"]])]
     #[ParamConverter("topic", options: ["mapping" => ["id" => "id"]])]
-
     public function add(ManagerRegistry $doctrine, Topic $topic = null, Request $request, Security $security, Categorie $categorie): Response
     {
         if (!$topic) {
@@ -44,8 +42,6 @@ class TopicController extends AbstractController
         }
         $form = $this->createForm(TopicType::class, $topic);
         $form->handleRequest($request);
-
-
 
         //<---------- SI LE FORMULAIRE EST SOUMIS ET VALIDE ---------->
         if ($form->isSubmitted() && $form->isValid()) {

@@ -7,21 +7,20 @@
 {% block body %}
     <div class="titre-add">
         <h1>Topics</h1>
-        <p><button class="addButton"><a href=" {{ path('add_topic') }} ">Ajouter un Topic</a></button></p>     
+        <p><button class="addButton"><a href=" {{ path('add_topic', {'idCategorie': topic.id}) }} ">Ajouter un topic</a></button></p>
     </div>
-
     <div>
         <table>
             <thead>
                 <tr>
                     <th>Titre</th>
                 </tr>
-            </thead>
+            </thead>, {idCategorie}
             <tbody>
                 {% for topic in topics %}
                 <tr>
                     <td>
-                        - <a href="{{ path('show_topic', {'id': topic.id}) }}">{{ topic.titre }}</a>
+                        - <a href="{{ path('show_topic', {'id': topic.id}) }}">{{ topic.titre ~ ' crée le ' ~ topic.dateTopic | date('d-m-Y  à H:i:s') }}</a>
                     </td>
                     <td>
                         <a href="{{ path('edit_topic', {'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>

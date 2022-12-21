@@ -25,7 +25,7 @@ class PostController extends AbstractController
 
         //<---------- FONCTION AJOUTER ET EDITER UN POST ---------->
         #[Route("/post/add", name:"add_post")]
-        #[Route("/post/{id}/edit", name:"edit_post")]    
+        #[Route("/post/edit/{id}", name:"edit_post")]    
         public function add(ManagerRegistry $doctrine, Post $post = null, Request $request): Response 
         {
             if(!$post) 
