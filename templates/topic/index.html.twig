@@ -7,7 +7,6 @@
 {% block body %}
     <div class="titre-add">
         <h1>Topics</h1>
-        <p><button class="addButton"><a href=" {{ path('add_topic', {'idCategorie': topic.id}) }} ">Ajouter un topic</a></button></p>
     </div>
     <div>
         <table>
@@ -15,7 +14,7 @@
                 <tr>
                     <th>Titre</th>
                 </tr>
-            </thead>, {idCategorie}
+            </thead>
             <tbody>
                 {% for topic in topics %}
                 <tr>

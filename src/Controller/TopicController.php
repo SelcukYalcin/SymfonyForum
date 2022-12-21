@@ -31,46 +31,38 @@ class TopicController extends AbstractController
     }
 
     //<---------- FONCTION AJOUTER ET EDITER UN TOPIC ---------->
-    #[Route("/topic/add/{idCategorie}", name: "add_topic")]
-    #[Route("/topic/edit/{id}", name: "edit_topic")]
-    #[ParamConverter("categorie", options: ["mapping" => ["idCategorie" => "id"]])]
-    #[ParamConverter("topic", options: ["mapping" => ["id" => "id"]])]
-    public function add(ManagerRegistry $doctrine, Topic $topic = null, Request $request, Security $security, Categorie $categorie): Response
+    #[Route("/topic/add", name:"add_topic")]
+    #[Route("/topic/edit/{id}", name:"edit_topic")]
+    public function add(ManagerRegistry $doctrine, Topic $topic = null, Request $request): Response 
     {
-        if (!$topic) {
+        if(!$topic) 
+        {
             $topic = new Topic();
+            $topic->setDatetopic(new \DateTime('now'));
         }
         $form = $this->createForm(TopicType::class, $topic);
         $form->handleRequest($request);
-
         //<---------- SI LE FORMULAIRE EST SOUMIS ET VALIDE ---------->
-        if ($form->isSubmitted() && $form->isValid()) {
-            //<---------- RECUPERE ET STOCKE LES DONNEES DU FORMULAIRE ---------->
-
-            $user = $security->getUSer();
-            $date_topic = new DateTime();
-            $topic->setDateTopic($date_topic);
-            $topic->setCategorie($categorie);
-            $topic->setUtilisateur($user);
+        if($form->isSubmitted() && $form->isValid()) 
+        {
+            //  RECUPERE ET STOCKE LES DONNEES DU FORMULAIRE
             $topic = $form->getData();
             $entityManager = $doctrine->getManager();
             //<---------- PREPARE ---------->
             $entityManager->persist($topic);
             //<---------- EXECUTE ---------->
             $entityManager->flush();
-
-            return $this->redirectToRoute('show_categorie', ['id' => $topic->getCategorie()->getId()]);
+            $topics =$topic->getCategorie()->getId();
+            return $this->redirectToRoute('show_categorie', ['id' => $topics]);
         }
         //<---------- RENVOI L'AFFICHAGE DU FORMULAIRE ---------->
-        return $this->render(
-            'topic/add.html.twig',
-            [
-                //<---------- CREATION DE LA VUE DU FORMULAIRE ---------->
-                'formAddTopic' => $form->createView(),
-                //<---------- ID POUR EDITER LE TOPIC ---------->
-                'edit' => $topic->getId()
-            ]
-        );
+        return $this->render('topic/add.html.twig', 
+        [
+            //<---------- CREATION DE LA VUE DU FORMULAIRE ---------->
+            'formAddTopic' =>$form->createView(),
+            //<---------- ID POUR EDITER LE topic ---------->
+            'edit' => $topic->getId()
+        ]);
     }
 
     //<---------- FONCTION SUPPRIMER UN TOPIC ---------->
