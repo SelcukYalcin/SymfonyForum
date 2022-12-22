@@ -22,7 +22,7 @@ class Topic
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable:true, options:["default" =>"CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $dateTopic = null;
 
-    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: Post::class)]
+    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: Post::class, orphanRemoval: true)]
     private Collection $posts;
 
     #[ORM\ManyToOne(inversedBy: 'topics')]
@@ -40,6 +40,7 @@ class Topic
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->dateTopic = new \DateTime('now');
     }
 
 
@@ -126,20 +127,22 @@ class Topic
         return $this;
     }
 
+    
+    public function isLocked(): ?bool
+    {
+        return $this->locked;
+    }
+    
+    public function setLocked(bool $locked): self
+    {
+        $this->locked = $locked;
+        
+        return $this;
+    }
+    
     public function __toString()
     {
         return $this->titre;
     }
 
-    public function isLocked(): ?bool
-    {
-        return $this->locked;
-    }
-
-    public function setLocked(bool $locked): self
-    {
-        $this->locked = $locked;
-
-        return $this;
-    }
 }

@@ -7,7 +7,7 @@ Détail de la Catégorie
 {% block body %}
 <div class="titre-add">
     <h1>Topic(s) de la Catégorie {{ categorie.libelle }}</h1>
-    <p><button class="addButton"><a href=" {{ path('add_topic') }} ">
+    <p><button class="addButton"><a href=" {{ path('add_topic', {'idcat': categorie.id}) }} ">
         Ajouter un topic</a></button></p>
 </div>
 {% if categorie.topics | length == 0 %}
@@ -27,7 +27,7 @@ Détail de la Catégorie
                     - {{ topic.titre ~ ' crée le ' ~ topic.dateTopic | date("m/d/Y à H:i:s") ~ ' par ' ~ topic.utilisateur }}</a>
             </td>
             <td>
-                <a href="{{ path('edit_topic', {'id': topic.id}) }}">
+                <a href="{{ path('edit_topic', {'id': topic.id, 'idcat': categorie.id}) }}">
                     <i class="fa-solid fa-pen-to-square"></i></a>
                 <a href="{{ path('delTopic', {'id': topic.id}) }}">
                     <i class="fa-solid fa-trash"></i></a>

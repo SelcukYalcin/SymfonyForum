@@ -27,6 +27,11 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?Topic $topic = null;
 
+    public function __construct()
+    {
+        $this->datePost = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

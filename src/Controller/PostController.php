@@ -10,9 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class PostController extends AbstractController
 {
+    //<---------- INDEXATION DES POSTS PAR ORDRE CHRONOLOGIQUE ---------->
     #[Route('/post', name: 'app_post')]
     public function index(ManagerRegistry $doctrine): Response
     {
@@ -24,23 +26,29 @@ class PostController extends AbstractController
     }
 
         //<---------- FONCTION AJOUTER ET EDITER UN POST ---------->
-        #[Route("/post/add", name:"add_post")]
-        #[Route("/post/edit/{id}", name:"edit_post")]    
-        public function add(ManagerRegistry $doctrine, Post $post = null, Request $request): Response 
+        #[Route("/post/add/{idtopic}", name:"add_post")]
+        #[Route("/post/edit/{id}/{idtopic}", name:"edit_post")]
+        #[ParamConverter("post", options: ["mapping" => ["id" => "id"]])]
+        #[ParamConverter("topic", options: ["mapping" => ["idtopic" => "id"]])]   
+        public function add(ManagerRegistry $doctrine, Post $post = null,Topic $topic = null, Request $request): Response 
         {
             if(!$post) 
             {
                 $post = new Post();
-                $post->setDatePost(new \DateTime('now'));
             }
             $form = $this->createForm(PostType::class, $post);
             $form->handleRequest($request);
+            $entityManager = $doctrine->getManager();
+
             //<---------- SI LE FORMULAIRE EST SOUMIS ET VALIDE ---------->
             if($form->isSubmitted() && $form->isValid()) 
             {
-                //  RECUPERE ET STOCKE LES DONNEES DU FORMULAIRE
+                //<---------- RECUPERE ET STOCKE LES DONNEES DU FORMULAIRE ---------->
                 $post = $form->getData();
-                $entityManager = $doctrine->getManager();
+                //<---------- ON ASSOCIE L'UTILISATEUR CONNECTE AU POST ---------->
+                $post->setUtilisateur($this->getUser());
+                //<---------- ON AJOUTE LE POST DANS LE TOPIC EN COURS ---------->
+                $topic->addPost($post);
                 //<---------- PREPARE ---------->
                 $entityManager->persist($post);
                 //<---------- EXECUTE ---------->

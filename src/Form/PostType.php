@@ -19,8 +19,6 @@ class PostType extends AbstractType
     {
         $builder
             ->add('message', TextareaType::class, ['label' => 'Post'])
-            ->add('utilisateur', EntityType::class, ['class' => Utilisateur::class, 'choice_label' => 'pseudo'])
-            ->add('topic', EntityType::class, ['class' => Topic::class, 'choice_label' => 'titre'])
             ->add('submit',SubmitType::class, ['attr' => ['class' => 'btn']])
         ;
     }

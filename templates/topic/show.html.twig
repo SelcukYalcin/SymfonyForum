@@ -7,7 +7,7 @@
 {% block body %}
     <div class="titre-add">
         <h1>Post(s) du topic {{ topic.titre }}</h1>
-        <p><button class="addButton"><a href=" {{ path('add_post') }} ">
+        <p><button class="addButton"><a href=" {{ path('add_post', {'idtopic': topic.id }) }} ">
             Ajouter un post</a></button></p>
     </div>
     {% if topic.posts | length == 0 %}
@@ -30,7 +30,7 @@
                                     Edité le  {{ post. datePost | date('d-m-Y  à H:i:s') }}
                                 </td>
                                 <td>
-                                    <a href="{{ path('edit_post', {'id': post.id}) }}">
+                                    <a href="{{ path('edit_post', {'id': post.id, 'idtopic': topic.id}) }}">
                                         <i class="fa-solid fa-pen-to-square"></i></a> 
                                     <a href="{{ path('delPost', {'id': post.id}) }}">
                                         <i class="fa-solid fa-trash"></i></a>

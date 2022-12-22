@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class TopicController extends AbstractController
 {
-    // INDEXATION DES TOPICS PAR ORDRE CHRONOLOGIQUE
+    //<---------- INDEXATION DES TOPICS PAR ORDRE CHRONOLOGIQUE ---------->
     #[Route('/topic', name: 'app_topic')]
     public function index(ManagerRegistry $doctrine): Response
     {
@@ -31,23 +31,30 @@ class TopicController extends AbstractController
     }
 
     //<---------- FONCTION AJOUTER ET EDITER UN TOPIC ---------->
-    #[Route("/topic/add", name:"add_topic")]
-    #[Route("/topic/edit/{id}", name:"edit_topic")]
-    public function add(ManagerRegistry $doctrine, Topic $topic = null, Request $request): Response 
+    #[Route("topic/add/{idcat}", name:"add_topic")]
+    #[Route("topic/edit/{idcat}/{id}", name:"edit_topic")]
+    #[ParamConverter("topic", options: ["mapping" => ["id" => "id"]])]
+    #[ParamConverter("categorie", options: ["mapping" => ["idcat" => "id"]])]
+
+    public function add(ManagerRegistry $doctrine, Categorie $categorie = null, Topic $topic = null, Request $request): Response 
     {
         if(!$topic) 
         {
             $topic = new Topic();
-            $topic->setDatetopic(new \DateTime('now'));
         }
         $form = $this->createForm(TopicType::class, $topic);
         $form->handleRequest($request);
+        $entityManager = $doctrine->getManager();
+
         //<---------- SI LE FORMULAIRE EST SOUMIS ET VALIDE ---------->
         if($form->isSubmitted() && $form->isValid()) 
         {
-            //  RECUPERE ET STOCKE LES DONNEES DU FORMULAIRE
+            //<---------- RECUPERE ET STOCKE LES DONNEES DU FORMULAIRE ---------->
             $topic = $form->getData();
-            $entityManager = $doctrine->getManager();
+            //<---------- ON ASSOCIE L'UTILISATEUR CONNECTE AU TOPIC ---------->
+            $topic->setUtilisateur($this->getUser());            
+            //<---------- ON AJOUTE LE TOPIC DANS LA CATEGORIE EN COURS ---------->
+            $categorie->addTopic($topic);
             //<---------- PREPARE ---------->
             $entityManager->persist($topic);
             //<---------- EXECUTE ---------->
@@ -63,6 +70,7 @@ class TopicController extends AbstractController
             //<---------- ID POUR EDITER LE topic ---------->
             'edit' => $topic->getId()
         ]);
+        
     }
 
     //<---------- FONCTION SUPPRIMER UN TOPIC ---------->
